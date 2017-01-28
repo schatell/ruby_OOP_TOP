@@ -147,7 +147,7 @@ class Game
       end
       if @restart == "YES"
         @current_player = "X"
-        @newgame.board = [[nil, nil, nil],[nil, nil, nil],[nil, nil, nil]]
+        @newgame.board = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]]
         @game_won = FALSE
         @newgame.display
         @winning_player = nil
