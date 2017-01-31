@@ -2,10 +2,11 @@ class Ai
 
   attr_reader :code
 
-  ##The AI serve multiple purpose, it can assume the role of both player(one at the time)##
+  #The AI serve multiple purpose, it can assume the role of both player#
+  #(one at the time)#
   def initialize; end
 
-  ##Serve the Ai playing the CodeMaker to choose a code.##
+  #Serve the Ai playing the CodeMaker to choose a code.#
   def choose_code
     @code = []
     4.times do
@@ -14,7 +15,8 @@ class Ai
     @code
   end
 
-  ##Will serve the Ai to take a guess. Will look at the feedback and take guess##
+  #Will serve the Ai to take a guess. Will look at the feedback and take#
+  #guess#
   def choose_guess
 
   end
