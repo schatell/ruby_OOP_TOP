@@ -99,8 +99,12 @@ class Game
     for x in 0..11 do
       @player.take_guess(x)
       @board.mark_board(x, @player.guess)
-      #@board.mark_fb(x, @player.guess)#
+      @board.mark_fb(@player.guess, x)
       Screen.clear
+      @board.code.each do | elem |
+        puts elem
+      end
+      @board.fb[0][0]
       @board.display
       game_end?(x)
     end

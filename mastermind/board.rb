@@ -42,20 +42,34 @@ class Board
     end
   end
 
-
-#NE MARCHE PAS!!!#
-  def mark_fb(x, guess)
-    white = []
-    black = []
-    for i in 0..3 do
-      for x in 0..3 do
-        if guess[i] == @code[i]
-          white.push("o")
-        elsif guess[i] == @code[x]
-          black.push("o".colorize(:black))
-        end
+#NE MARCHE PAS ECRIT TROP DE NOIR!!!!#
+  def mark_fb(guess, turn_num)
+    white = 0
+    black = 0
+    y = 0
+    z = 0
+    guess_arr = []
+    skip_code = [0, 1, 2, 3]
+    for x in 0..3 do
+      guess_arr.push("o".colorize(guess[x].to_sym))
+    end
+    for y in 0..3 do
+      if guess_arr[y] == @code[y]
+        white += 1
+        guess_arr[y] = white
+        skip_code.delete(y)
       end
-      @fb[x] = (white + black)
+    end
+    skip_code.each do | elem |
+      if guess_arr.include?@code[elem]
+        black += 1
+      end
+    end
+    white.times do
+      @fb[turn_num].unshift("o")
+    end
+    black.times do
+      @fb[turn_num].unshift("o".colorize(:black))
     end
   end
 
