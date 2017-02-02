@@ -45,8 +45,8 @@ class CodeBreaker
     @guess = []
     puts "Please make your guess for the turn number " +
      ((x + 1).to_s).colorize(:green) + ". Enter one color per line "
-    puts "Remember the available colors are red, blue, yellow, magenta, cyan"
-    puts "and orange."
+    puts "Remember the available colors are red, blue, yellow, green, magenta"
+    puts "and cyan."
     for i in 1..4 do
       loop do
         puts "Please choose the color number " + i.to_s.colorize(:red)

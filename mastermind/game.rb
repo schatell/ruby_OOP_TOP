@@ -8,7 +8,7 @@ require_relative 'ai.rb'
 
 class Game
 
-
+  #When called clear the screen#
   module Screen
     def self.clear
       print "\e[2J\e[f"
@@ -22,6 +22,7 @@ class Game
     @board = Board.new
     @computer = Ai.new
     @secret_code = []
+    @game_num = 1
     Screen.clear
   end
 
@@ -51,6 +52,7 @@ class Game
     puts " "
   end
 
+  #Begin the game, make the choice of the type of player#
   def begin_game
     loop do
       puts "     ---Welcome to Mastermind!---"
@@ -95,24 +97,43 @@ class Game
     end
   end
 
+  #If the comparaison between the board and the guess is right, the game end#
+  def game_won?(x)
+    if @board.fb[x][0] == "o" && @board.fb[x][1] == "o" &&
+       @board.fb[x][2] == "o" && @board.fb[x][3] == "o"
+         game_end("victory")
+    end
+  end
+
+  #The game end in a victory for one of the two type of player#
+  def game_end(x)
+    if x == "victory"
+      puts "The game was won by the code-breaker!"
+      puts "Would you like to play again?"
+    elsif x == "defeat"
+      puts "The code-maker won the game!"
+      puts "Would you like to play again?"
+    end
+    answer = gets.chomp
+    if answer == "yes"
+      @board.clear_board
+      begin_game
+    else
+      puts "Alrighty then"
+    end
+  end
+
+  #Define the turn of a player 12 total turn#
   def turn
     for x in 0..11 do
       @player.take_guess(x)
       @board.mark_board(x, @player.guess)
       @board.mark_fb(@player.guess, x)
       Screen.clear
-      @board.code.each do | elem |
-        puts elem
-      end
-      @board.fb[0][0]
       @board.display
-      game_end?(x)
+      game_won?(x)
     end
-  end
-
-  #If the comparaison between the board and the guess is right, the game end#
-  def game_end?(x)
-
+    game_end("defeat")
   end
 
 end

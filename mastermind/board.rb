@@ -18,6 +18,21 @@ class Board
     @code = []
   end
 
+  #Put the board to it's initial state#
+  def clear_board
+    @guess = [["o", "o", "o", "o"],["o", "o", "o", "o"],["o", "o", "o", "o"],
+    ["o", "o", "o","o"],["o", "o", "o", "o"],["o", "o", "o", "o"],
+    ["o", "o", "o", "o"],["o", "o", "o", "o"],["o", "o", "o", "o"],
+    ["o", "o", "o", "o"],["o", "o", "o", "o"],["o", "o", "o", "o"]]
+    @fb = [[" ", " ", " ", " "],[" ", " ", " ", " "],[" ", " ", " ", " "],
+    [" ", " ", " ", " "],[" ", " ", " ", " "],[" ", " ", " ", " "],
+    [" ", " ", " ", " "],[" ", " ", " ", " "],[" ", " ", " ", " "],
+    [" ", " ", " ", " "],[" ", " ", " ", " "],[" ", " ", " ", " "]]
+    @code = []
+  end
+
+
+  #Store the code deciced by the codemaker#
   def store_code(x)
     for i in 0..3 do
       @code[i] = "o".colorize(x[i].to_sym)
@@ -36,13 +51,15 @@ class Board
     puts " ¯¯¯¯¯¯¯¯¯"
   end
 
+  #Mark the guess the player made#
   def mark_board(turn, y)
     for i in 0..3 do
       @guess[turn][i] = "o".colorize(y[i].to_sym)
     end
   end
 
-#NE MARCHE PAS ECRIT TROP DE NOIR!!!!#
+  #Mark the feedback, white pin for exact guess, black for right color wrong#
+  #placement.#
   def mark_fb(guess, turn_num)
     white = 0
     black = 0
