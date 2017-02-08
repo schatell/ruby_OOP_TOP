@@ -93,7 +93,6 @@ class Game
       @player.pick_code
       @board.store_code(@player.pick)
       Screen.clear
-      @ai.choose_guess
     end
   end
 
@@ -125,15 +124,28 @@ class Game
 
   #Define the turn of a player 12 total turn#
   def turn
-    for x in 0..11 do
-      @player.take_guess(x)
-      @board.mark_board(x, @player.guess)
-      @board.mark_fb(@player.guess, x)
-      Screen.clear
-      @board.display
-      game_won?(x)
+    if @player = @player.class == CodeBreaker
+      for x in 0..11 do
+        @player.take_guess(x)
+        @board.mark_board(x, @player.guess)
+        @board.mark_fb(@player.guess, x)
+        Screen.clear
+        @board.display
+        game_won?(x)
+      end
+      game_end("defeat")
+    else
+      for x in 0..11 do
+        @computer.choose_guess(x)
+        @board.mark_board(x, @computer.guess)
+        @board.mark_fb(@computer.guess, x)
+        @computer.react_to_feedback
+        Screen.clear
+        @board.display
+        game_won?(x)
+      end
+      game_end("defeat")
     end
-    game_end("defeat")
   end
 
 end
