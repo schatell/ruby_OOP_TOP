@@ -1,6 +1,6 @@
 class CodeMaker
 
-  attr_reader :pick
+  attr_reader :code_picked
 
   #The Codemaker is a type of player, it is the one choosing the code at the#
   #beginning of the game. Once the code is chosen, the codemaker have not#

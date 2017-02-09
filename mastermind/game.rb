@@ -76,7 +76,7 @@ class Game
             display_instruction
           end
         else
-          puts "Please choose between 1 and 3"
+          puts "Please choose between 1, 2 and 0"
         end
         break
       end
@@ -91,8 +91,10 @@ class Game
       turn
     else
       @player.pick_code
-      @board.store_code(@player.pick)
+      @board.store_code(@player.code_picked)
+      @computer.make_list
       Screen.clear
+      turn
     end
   end
 
@@ -124,7 +126,7 @@ class Game
 
   #Define the turn of a player 12 total turn#
   def turn
-    if @player = @player.class == CodeBreaker
+    if @player.class == CodeBreaker
       for x in 0..11 do
         @player.take_guess(x)
         @board.mark_board(x, @player.guess)
@@ -139,9 +141,10 @@ class Game
         @computer.choose_guess(x)
         @board.mark_board(x, @computer.guess)
         @board.mark_fb(@computer.guess, x)
-        @computer.react_to_feedback
         Screen.clear
         @board.display
+        @board.send_feedback(x)
+        @computer.react_to_feedback(x, @board.returned_feedback)
         game_won?(x)
       end
       game_end("defeat")

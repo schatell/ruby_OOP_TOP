@@ -1,7 +1,7 @@
 class Board
 
-  attr_reader :code
-  attr_accessor :fb
+  #attr_reader :code#
+  attr_reader :fb, :returned_feedback
 
   #A board is created, there is a secret spot to put the code to guess and#
   #the board where the guessing player can put down it's guess. 12 turn to#
@@ -87,6 +87,13 @@ class Board
     end
     black.times do
       @fb[turn_num].unshift("o".colorize(:black))
+    end
+  end
+
+  def send_feedback(x)
+    @returned_feedback = []
+    for y in 0..3 do
+      @returned_feedback.push(@fb[x][y])
     end
   end
 
