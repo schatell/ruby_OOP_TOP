@@ -10,6 +10,7 @@ class Ai
     "green", "magenta", "magenta", "magenta", "magenta", "cyan", "cyan", "cyan",
     "cyan"]
     @possible_solution = Array.new
+    @possible_score = {}
   end
 
   def make_list
@@ -37,48 +38,30 @@ class Ai
     end
   end
 
-  def react_to_feedback(x, feedback)
-    to_be_deleted = []
-    @possible_solution.delete(@guess)
-    if feedback.include?("o".colorize(:black))
-      unless feedback.include?("o")
-        #will delete any possible solution that have same colored pin at same#
-        #place, since there is not a single white feedback#
-        @possible_solution.each_with_index do |elem, index|
-          for x in 0..3 do
-            if @guess[x] == elem[x]
-              to_be_deleted.push(index)
-            end
-          end
-        end
+  def analyse_fb(feedback)
+    @max_possible_point = 0
+    feedback.each do |elem|
+      if elem == "o"
+        @max_possible_point += 2
       end
-    else
-      #Delete all possible solution that include old guess, since there is#
-      #not a single feedback#
-      @possible_solution.each_with_index do |elem, index|
-        for x in 0..3 do
-          if elem.include?(@guess[x])
-            to_be_deleted.push(index)
-          end
-        end
+      if  elem == "o".colorize(:black)
+        @max_possible_point += 1
       end
-      #Once the list to be deleted is completed, will delete those index in#
-      #the list of possible#
-      to_be_deleted.each do |number|
-        @possible_solution.delete_at(number)
-      end
+  end
+
+  def calculate_point_system
+
+    @possible_solution.each do |elem|
     end
-    if feedback.include?("o")
-      #If there is any white feedback, will try those that look alike#
-      @possible_solution.each do |elem|
-          if elem.include?(@guess[0..3])
-            @best_available_guess = elem
-          end
-        end
-      end
-    else
-      #If there is no clue will take the first possible solution in the list#
-      @best_available_guess = @possible_solution[0]
+
+  end
+
+  def delete_old_guess
+    @possible_solution.delete(@guess)
+  end
+
+  def order_by_best
+
   end
 
 end

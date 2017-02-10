@@ -121,6 +121,7 @@ class Game
       begin_game
     else
       puts "Alrighty then"
+      exit
     end
   end
 
@@ -133,7 +134,7 @@ class Game
         @board.mark_fb(@player.guess, x)
         Screen.clear
         @board.display
-        game_won?(x)
+        break if game_won?(x)
       end
       game_end("defeat")
     else
@@ -144,8 +145,9 @@ class Game
         Screen.clear
         @board.display
         @board.send_feedback(x)
-        @computer.react_to_feedback(x, @board.returned_feedback)
-        game_won?(x)
+        @computer.analyse_fb(@board.returned_feedback)
+
+        break if game_won?(x)
       end
       game_end("defeat")
     end
