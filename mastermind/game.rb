@@ -145,9 +145,8 @@ class Game
         Screen.clear
         @board.display
         @board.send_feedback(x)
-        @computer.analyse_fb(@board.returned_feedback)
-
         break if game_won?(x)
+        @computer.react_to_fb(@board.returned_feedback)
       end
       game_end("defeat")
     end

@@ -34,8 +34,20 @@ class Ai
       @best_available_guess = []
       @guess = ["red", "red", "blue", "blue"]
     else
-      @guess = @best_available_guess
+      @guess = @next_guess
     end
+  end
+
+  def react_to_fb(feedback)
+    delete_old_guess
+    analyse_fb(feedback)
+    delete_irrelevant_guess(@max_possible_point)
+    calculate_point_system(@guess)
+    order_by_best
+  end
+
+  def delete_old_guess
+    @possible_solution.delete(@guess)
   end
 
   def analyse_fb(feedback)
@@ -47,21 +59,60 @@ class Ai
       if  elem == "o".colorize(:black)
         @max_possible_point += 1
       end
+    end
   end
 
-  def calculate_point_system
+  def delete_irrelevant_guess(fb_pts)
+    pos_to_delete =[]
+    if fb_pts == 0
+      @possible_solution.each_with_index do |elem, index|
+        for x in 0..3 do
+          if elem.include?(@guess[x])
+            pos_to_delete.push[index]
+          end
+        end
+      end
+    end
+    pos_to_delete.each do |ind|
+      @possible_solution.delete_at(ind)
+    end
+  end
+
+  def calculate_point_system(guess)
+    @best_available_guess = {}
 
     @possible_solution.each do |elem|
+      maxpoint = @max_possible_point
+      elempoint = 0
+      for x in 0..3 do
+        if @guess[x] == elem[x]
+          maxpoint -= 2
+          elempoint += 2
+        end
+        if elem.include?(@guess[x])
+          maxpoint -= 1
+          elempoint += 1
+        end
+        break if maxpoint == 0
+      end
+      @best_available_guess[elempoint] = elem
     end
-
-  end
-
-  def delete_old_guess
-    @possible_solution.delete(@guess)
   end
 
   def order_by_best
-
+    @next_guess = []
+    x = 0
+    y = 0
+    @best_available_guess.each do |points, guess|
+      y = points
+      if y > x
+        @next_guess = guess
+        x = points
+      end
+    end
+    #@best_available_guess.each do |elem|#
+      #puts elem.to_s#
+    #end
   end
 
 end
